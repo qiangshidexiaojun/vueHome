@@ -4,6 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import "./less/index.less"//引入全局样式
+
+//引入element-ui组件
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
