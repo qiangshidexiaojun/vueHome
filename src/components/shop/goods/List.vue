@@ -63,8 +63,8 @@
 </template>
 
 <script>
-import appAside from "./subcom/commonAside.vue"
-import listMain from "./main/ListMain.vue"
+import AppAside from "./subcom/commonAside.vue"
+import ListMain from "./main/ListMain.vue"
 export default {
   data() {
     return {
@@ -74,8 +74,8 @@ export default {
     };
   },
   components: {
-      appAside,
-      listMain
+      AppAside,
+      ListMain
   },
   methods: {
     getGoodsList() {
@@ -120,9 +120,5 @@ export default {
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
-.section .left-705{
-    img{
-        height: 100%;
-    }
-} 
+
 </style>

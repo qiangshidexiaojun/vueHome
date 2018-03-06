@@ -133,4 +133,7 @@ a {
 .el-upload-list.el-upload-list--picture {
   margin-right: 10px;
 }
+.section > .wrapper .el-carousel__container {
+  height: 100%;
+}
 /*# sourceMappingURL=./index.css.map */
