@@ -14,7 +14,7 @@ import ShopCart from "../components/shop/shopcart/Shopcart.vue"//引入购物车
 Vue.use(Router)
 
 let goods = [
-  { name: "goodsDetail", path: 'goods/detail', component: GoodsDetail },
+  { name: "goodsDetail", path: 'goods/detail/:id', component: GoodsDetail },
   { name: "goodsList", path: 'goods/list', component: GoodsList }
 ];
 
