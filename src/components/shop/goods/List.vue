@@ -64,7 +64,7 @@
 
 <script>
 import AppAside from "./subcom/commonAside.vue"
-import ListMain from "./main/ListMain.vue"
+import ListMain from "./subcom/ListMain.vue"
 export default {
   data() {
     return {

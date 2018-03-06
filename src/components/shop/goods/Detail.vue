@@ -109,14 +109,12 @@ export default {
         imglist: [],
         hotgoodslist: []
       },
-      page: {
-        pageIndex: 1,
-        pageSize: 4
-      },
+      /* 数量 */
       num: 1
     };
   },
   methods: {
+      /* 获取商品详情列表 */
     getDetailData() {
       this.$http.get(this.$api.goodsDetail + this.id).then(res => {
         if (res.data.status == 0) {
@@ -125,6 +123,7 @@ export default {
       });
     }
   },
+  /* 监听url地址的值 */
   watch: {
     $route() {
       this.id = this.$route.params.id;

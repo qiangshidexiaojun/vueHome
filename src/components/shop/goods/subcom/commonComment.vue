@@ -1,13 +1,13 @@
 <template>
     <div class="comment-box">
         <!--取得评论总数-->
-        <form id="commentForm" name="commentForm" class="form-box" url="/tools/submit_ajax.ashx?action=comment_add&amp;channel_id=2&amp;article_id=98">
+        <form id="commentForm" name="commentForm" class="form-box" @submit.prevent="sendComments">
             <div class="avatar-box">
                 <i class="iconfont icon-user-full"></i>
             </div>
             <div class="conn-box">
                 <div class="editor">
-                    <textarea id="txtContent" name="txtContent" sucmsg=" " datatype="*10-1000" nullmsg="请填写评论内容！"></textarea>
+                    <textarea id="txtContent" name="txtContent" v-model="commenttxt.commenttxt" sucmsg=" " datatype="*10-1000" nullmsg="请填写评论内容！"></textarea>
                     <span class="Validform_checktip"></span>
                 </div>
                 <div class="subcon">
@@ -44,16 +44,23 @@
 export default {
   data() {
     return {
+      /* 分页 */
       page: {
         pageIndex: 1,
-        pageSize: 2,
-        // totalcount: 0
+        pageSize: 2
       },
-      message: []
+      /* 评论信息列表 */
+      message: [],
+      /* 评论内容 */
+      commenttxt: {
+        commenttxt: ""
+      }
     };
   },
+  /* 根据父亲传过来的值进行接收 */
   props: ["id"],
   methods: {
+    /* 获取评论 */
     getCommentList() {
       let url = `${this.$api.commentList}goods/${this.id}?pageIndex=${
         this.page.pageIndex
@@ -65,10 +72,22 @@ export default {
         }
       });
     },
+    /* 发布评论 */
+    sendComments() {
+      let url = `${this.$api.comment}goods/${this.id}`;
+      this.$http.post(url, this.commenttxt).then(res => {
+        if (res.data.status == 0) {
+          this.commenttxt.commenttxt = ""; // 成功后清空评论框
+          this.getCommentList();// 成功后刷新评论列表
+        }
+      });
+    },
+    /* 总页数改变的时候 */
     handleSizeChange(val) {
       this.page.pageSize = val;
       this.getCommentList();
     },
+    /* 当前页改变的时候 */
     handleCurrentChange(val) {
       this.page.pageIndex = val;
       this.getCommentList();
