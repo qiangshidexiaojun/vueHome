@@ -31,7 +31,7 @@
                                 <div class="spec-box">
                                     <dl>
                                         <dt>货号</dt>
-                                        <dd id="commodityGoodsNo">{{top.goodsinfo.good_no}}</dd>
+                                        <dd id="commodityGoodsNo">{{top.goodsinfo.goods_no}}</dd>
                                     </dl>
                                     <dl>
                                         <dt>市场价</dt>
@@ -52,7 +52,7 @@
                                         <dt>购买数量</dt>
                                         <dd>
                                             <span class="stock-txt">
-                                                <el-input-number size="mini" :min="1" v-model="num"></el-input-number>
+                                                <el-input-number size="mini" :min="1" :max="top.goodsinfo.stock_quantity" v-model="num"></el-input-number>
                                                 库存
                                                 <em id="commodityStockNum">{{top.goodsinfo.stock_quantity}}</em>件
                                             </span>
@@ -72,22 +72,15 @@
                             <!--/商品信息-->
                         </div>
 
-                        <div id="goodsTabs" class="goods-tab bg-wrap">
-                            <!--选项卡-->
-                            <div id="tabHead" class="tab-head" style="position: static; top: 517px; width: 925px;">
-                                <ul>
-                                    <li>
-                                        <a class="selected" href="javascript:;">商品介绍</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:;" class="">商品评论</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!--/选项卡-->
-
-                            <!--选项内容-->
-                        </div>
+                        <!--选项卡-->
+                        <el-tabs type="border-card">
+                            <el-tab-pane label="图文信息">
+                                <div v-html="top.goodsinfo.content"></div>
+                            </el-tab-pane>
+                            <el-tab-pane label="商品评论">
+                                <comment :id="id"></comment>
+                            </el-tab-pane>
+                        </el-tabs>
 
                     </div>
 
@@ -102,9 +95,11 @@
 
 <script>
 import AppAside from "./subcom/commonAside.vue";
+import Comment from "./subcom/commonComment.vue";
 export default {
   components: {
-    appAside: AppAside
+    appAside: AppAside,
+    comment: Comment
   },
   data() {
     return {
@@ -114,14 +109,26 @@ export default {
         imglist: [],
         hotgoodslist: []
       },
+      page: {
+        pageIndex: 1,
+        pageSize: 4
+      },
       num: 1
     };
   },
   methods: {
     getDetailData() {
       this.$http.get(this.$api.goodsDetail + this.id).then(res => {
-        this.top = res.data.message;
+        if (res.data.status == 0) {
+          this.top = res.data.message;
+        }
       });
+    }
+  },
+  watch: {
+    $route() {
+      this.id = this.$route.params.id;
+      this.getDetailData();
     }
   },
   created() {
