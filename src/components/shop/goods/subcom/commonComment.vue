@@ -1,43 +1,43 @@
 <template>
-    <div class="comment-box">
-        <!--取得评论总数-->
-        <form id="commentForm" name="commentForm" class="form-box" @submit.prevent="sendComments">
-            <div class="avatar-box">
-                <i class="iconfont icon-user-full"></i>
-            </div>
-            <div class="conn-box">
-                <div class="editor">
-                    <textarea id="txtContent" name="txtContent" v-model="commenttxt.commenttxt" sucmsg=" " datatype="*10-1000" nullmsg="请填写评论内容！"></textarea>
-                    <span class="Validform_checktip"></span>
-                </div>
-                <div class="subcon">
-                    <input id="btnSubmit" name="submit" type="submit" value="提交评论" class="submit">
-                    <span class="Validform_checktip"></span>
-                </div>
-            </div>
-        </form>
-        <ul id="commentList" class="list-box">
-            <p style="margin:5px 0 15px 69px;line-height:42px;text-align:center;border:1px solid #f7f7f7;">暂无评论，快来抢沙发吧！</p>
-            <li v-for="(item,index) in message" :key="index">
-                <div class="avatar-box">
-                    <i class="iconfont icon-user-full"></i>
-                </div>
-                <div class="inner-box">
-                    <div class="info">
-                        <span>{{item.user_name}}</span>
-                        <span>{{item.add_time}}</span>
-                    </div>
-                    <p>{{item.content}}</p>
-                </div>
-            </li>
-        </ul>
-        <!--放置页码-->
-        <div class="block">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.pageIndex" :page-sizes="[2, 4, 6, 8]" :page-size="page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="page.totalcount">
-            </el-pagination>
+  <div class="comment-box">
+    <!--取得评论总数-->
+    <form id="commentForm" name="commentForm" class="form-box" @submit.prevent="sendComments">
+      <div class="avatar-box">
+        <i class="iconfont icon-user-full"></i>
+      </div>
+      <div class="conn-box">
+        <div class="editor">
+          <textarea id="txtContent" name="txtContent" v-model="commenttxt.commenttxt" sucmsg=" " datatype="*10-1000" nullmsg="请填写评论内容！"></textarea>
+          <span class="Validform_checktip"></span>
         </div>
-        <!--/放置页码-->
+        <div class="subcon">
+          <input id="btnSubmit" name="submit" type="submit" value="提交评论" class="submit">
+          <span class="Validform_checktip"></span>
+        </div>
+      </div>
+    </form>
+    <ul id="commentList" class="list-box">
+      <p style="margin:5px 0 15px 69px;line-height:42px;text-align:center;border:1px solid #f7f7f7;">暂无评论，快来抢沙发吧！</p>
+      <li v-for="(item,index) in message" :key="index">
+        <div class="avatar-box">
+          <i class="iconfont icon-user-full"></i>
+        </div>
+        <div class="inner-box">
+          <div class="info">
+            <span>{{item.user_name}}</span>
+            <span>{{item.add_time | filterTime("-")}}</span>
+          </div>
+          <p>{{item.content}}</p>
+        </div>
+      </li>
+    </ul>
+    <!--放置页码-->
+    <div class="block">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.pageIndex" :page-sizes="[2, 4, 6, 8]" :page-size="page.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="page.totalcount">
+      </el-pagination>
     </div>
+    <!--/放置页码-->
+  </div>
 </template>
 
 <script>
@@ -59,6 +59,18 @@ export default {
   },
   /* 根据父亲传过来的值进行接收 */
   props: ["id"],
+  filters: {
+    filterTime(date, symbol) {
+      let newDate = new Date(date);
+      return (
+        newDate.getFullYear() +
+        symbol +
+        (newDate.getMonth() + 1) +
+        symbol +
+        newDate.getDate()
+      );
+    }
+  },
   methods: {
     /* 获取评论 */
     getCommentList() {
@@ -78,7 +90,7 @@ export default {
       this.$http.post(url, this.commenttxt).then(res => {
         if (res.data.status == 0) {
           this.commenttxt.commenttxt = ""; // 成功后清空评论框
-          this.getCommentList();// 成功后刷新评论列表
+          this.getCommentList(); // 成功后刷新评论列表
         }
       });
     },
@@ -90,6 +102,11 @@ export default {
     /* 当前页改变的时候 */
     handleCurrentChange(val) {
       this.page.pageIndex = val;
+      this.getCommentList();
+    }
+  },
+  watch: {
+    id() {
       this.getCommentList();
     }
   },
