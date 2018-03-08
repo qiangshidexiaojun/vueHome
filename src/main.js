@@ -2,7 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './router/index.js'//引入路由
+
+import routerGuard from "./router/guard.js"
+router.beforeEach(routerGuard)//启用路由守卫
 
 import "./less/index.less"//引入全局样式
 import "./assets/css/style.css"//引入样式
@@ -12,6 +15,8 @@ import api, { domain } from "./js/api.js"//加载变量
 
 import Vuex from "vuex" //引入组件通信管理插件
 import Cart from './store/cart.js' // 使用{}引入store实例，因为store是一个const变量，vuex
+
+
 
 //引入element-ui组件
 import ElementUI from 'element-ui'

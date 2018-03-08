@@ -57,7 +57,7 @@ export default {
             message: "登录成功！",
             duration: 1000
           });
-          localStorage.setItem("user_name", res.data.message.user_name);
+          localStorage.setItem("user_name", this.ruleForm2.user_name);
           /* 路由跳转，也可以使用replace */
           var nextPage = this.$route.query.next || "/shop/goods/list";
           this.$router.push({ path: nextPage });

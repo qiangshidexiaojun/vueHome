@@ -139,7 +139,7 @@ export default {
         hotgoodslist: []
       },
       /* 数量 */
-      num: 0
+      num: 1
     };
   },
   methods: {
@@ -152,6 +152,7 @@ export default {
       });
     },
     addCart(){
+        this.num = this.num + (this.$store.state.cart[this.id] || 0)
         this.$store.commit("cartData",{id: this.id,num: this.num});
         this.num = 0;
     }

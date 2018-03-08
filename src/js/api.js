@@ -31,7 +31,7 @@ export default {
     shopcartGoods: `/site/comment/getshopcargoods/`,        // 获取购物车商品数据, 需要参数: goodsIDS
 
     // 订单数据
-    orderList: ` /site/validate/order/getgoodslist/`,        // 获取订单商品列表数据, 需要参数: goodsIDS
+    orderList: `/site/validate/order/getgoodslist/`,        // 获取订单商品列表数据, 需要参数: goodsIDS
     orderSubmit: `/site/validate/order/setorder`,            // 订单提交
     order: `/site/validate/order/getorder/`,                  // 获取订单信息, 需要参数orderID
     orderPay: `/site/validate/order/pay/`,                   // 订单支付, 需要查询: orderID

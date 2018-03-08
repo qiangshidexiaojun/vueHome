@@ -71,7 +71,7 @@
                                         <td>￥{{$store.state.cart[item.id] * item.sell_price}}</td>
                                     </th>
                                     <th width="54" align="center">
-                                        <el-button size="mini">删除</el-button>
+                                        <el-button size="mini" @click="delData(item.id)">删除</el-button>
                                     </th>
                                 </tr>
 
@@ -90,7 +90,7 @@
                                     </td>
                                 </tr>
 
-                                <tr>
+                                <tr v-if="goodsList.length != 0">
                                     <th align="right" colspan="8">
                                         已选择商品
                                         <b class="red" id="totalQuantity">{{total}}</b> 件 &nbsp;&nbsp;&nbsp; 商品总金额（不含运费）：
@@ -103,10 +103,10 @@
                     </div>
 
                     <!--购物车底部-->
-                    <div class="cart-foot clearfix">
+                    <div class="cart-foot clearfix" v-if="goodsList.length != 0">
                         <div class="right-box">
-                            <button class="button">继续购物</button>
-                            <button class="submit">立即结算</button>
+                            <button class="button" @click="$router.push({name: 'goodsList'})">继续购物</button>
+                            <button class="submit" @click="site">立即结算</button>
                         </div>
                     </div>
 
@@ -139,10 +139,17 @@ export default {
     },
     /* 总价格 */
     totalPrice() {
-      let sum = 0;
-      this.goodsList.forEach(v=>v.selected && (sum += this.$store.state.cart[v.id] * v.sell_price));
-      return sum;
-    //   this.goodsList.reduce((sum, v) => {return v.sell_price} , 0);
+      //   let sum = 0;
+      //   this.goodsList.forEach(v=>v.selected && (sum += this.$store.state.cart[v.id] * v.sell_price));
+      //   return sum;
+      /* reduce数组求和 */
+      return this.goodsList.reduce(
+        (sum, v) =>
+          v.selected == true
+            ? sum += v.sell_price * this.$store.state.cart[v.id]
+            : 0,
+        0
+      );
     }
   },
   methods: {
@@ -159,6 +166,16 @@ export default {
     /* 全选值改变的时候触发 */
     allChange(newStatus) {
       this.goodsList.forEach(v => (v.selected = newStatus));
+    },
+    /* 刪除數據 */
+    delData(id) {
+      this.goodsList = this.goodsList.filter(v => v.id != id);
+      this.$store.commit("delData", id);
+    },
+    /* 立即结算跳转到订单地址页面 */
+    site() {
+      var ids = this.goodsList.filter(v => v.selected).map(v => v.id);
+      this.$router.push({ name: "orderSite", params: { ids: ids.join(",") } });
     }
   },
   created() {

@@ -24,7 +24,7 @@ let shopcart = [{
 
 let order = [
   { name: "orderPay", path: 'order/pay', component: OrderPay },
-  { name: "orderSite", path: 'order/site', component: OrderSite },
+  { name: "orderSite", path: 'order/site/:ids', component: OrderSite },
   { name: "orderComplete", path: 'order/complete', component: OrderComplete }
 ];
 
