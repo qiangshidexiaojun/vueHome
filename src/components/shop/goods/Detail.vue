@@ -77,7 +77,7 @@
                                         <dt>购买数量</dt>
                                         <dd>
                                             <span class="stock-txt">
-                                                <el-input-number size="mini" :min="1" :max="top.goodsinfo.stock_quantity" v-model="num"></el-input-number>
+                                                <el-input-number size="mini" :min="0" :max="top.goodsinfo.stock_quantity" v-model="num"></el-input-number>
                                                 库存
                                                 <em id="commodityStockNum">{{top.goodsinfo.stock_quantity}}</em>件
                                             </span>
@@ -87,7 +87,7 @@
                                         <dd>
                                             <div class="btn-buy" id="buyButton">
                                                 <button class="buy">立即购买</button>
-                                                <button class="add">加入购物车</button>
+                                                <button class="add" @click="addCart">加入购物车</button>
                                             </div>
                                         </dd>
                                     </dl>
@@ -139,7 +139,7 @@ export default {
         hotgoodslist: []
       },
       /* 数量 */
-      num: 1
+      num: 0
     };
   },
   methods: {
@@ -150,6 +150,10 @@ export default {
           this.top = res.data.message;
         }
       });
+    },
+    addCart(){
+        this.$store.commit("cartData",{id: this.id,num: this.num});
+        this.num = 0;
     }
   },
   /* 监听url地址的值 */

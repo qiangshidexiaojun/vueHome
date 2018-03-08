@@ -13,7 +13,7 @@
                     <strong>|</strong>
                     <a>
                         <i class="iconfont icon-phone"></i>联系我们</a>
-                    <router-link :to="{ name: 'shopcart' }">
+                    <router-link :to="{ name: 'shopCart' }">
                         <i class="iconfont icon-cart"></i>
                         <span>购物车(100)</span>
                     </router-link>

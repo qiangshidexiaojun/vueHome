@@ -10,8 +10,8 @@ import "./assets/css/style.css"//引入样式
 import axios from "axios";//引入axios类库
 import api, { domain } from "./js/api.js"//加载变量
 
-// import Vuex from "vuex" //引入组件通信管理插件
-// import { store } from './js/store.js' // 使用{}引入store实例，因为store是一个const变量，vuex
+import Vuex from "vuex" //引入组件通信管理插件
+import Cart from './store/cart.js' // 使用{}引入store实例，因为store是一个const变量，vuex
 
 //引入element-ui组件
 import ElementUI from 'element-ui'
@@ -28,12 +28,13 @@ Vue.prototype.$http = axios;
 Vue.prototype.$api = api;
 
 Vue.use(ElementUI)
+Vue.use(Vuex)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  // store,
+  store:new Vuex.Store(Cart),
   components: { App },
   template: '<App/>'
 })
